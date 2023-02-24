@@ -1,6 +1,6 @@
 window.addEventListener("load", paint)
 function paint() {
-    var tT = 100 //ms
+    var tT = 20 //ms
     var mousePos
 
     const dimensions = containerDimensions()
@@ -14,37 +14,49 @@ function paint() {
 }
 
 function handleChange(container, dimensions, tT, mousePos) {
-    var cursor = container.append("circle").attr("r", 10)
-        .attr("fill", "black").attr("stroke", "black")
-        .attr("stroke-width", 5).attr("stroke-opacity", 0.1)
-        .attr("visibility", "hidden");
-
+    var pointer = drawPointer(container)
+    
     container.append("rect")
         // .attr("cursor", "none")
         .attr("x", 50).attr("y", 50)
-        .attr( "width", dimensions.boundedWidth).attr("height", dimensions.boundedHeight)
+        .attr( "width", dimensions.boundedWidth)
+        .attr("height", dimensions.boundedHeight)
         .attr("visibility", "hidden")
         .attr("pointer-events", "all")
-        .on( "mouseenter", function() {
-            cursor.attr("visibility", "visible");
-            var pt = d3.pointer(event);
-        })
-        .on( "mousemove", function() {
-            var pt = d3.pointer(event);
-            mousePos = pt;
-        })
-        .on( "mouseleave", function() {
-            cursor.attr( "visibility", "hidden" );
-        })
+        .on( "mouseenter", mouseEnter)
+        .on( "mousemove", mouseMove)
+        .on( "mouseleave", mouseLeave)
+
+    function mouseEnter() {
+        var pt = d3.pointer(event);
+        mousePos = pt
+        pointer.attr("visibility", "visible");
+    }
+    
+    function mouseMove() {
+        var pt = d3.pointer(event);
+        mousePos = pt;
+    }
+    
+    function mouseLeave() {
+        pointer.attr("visibility", "hidden");
+    }
 
     setInterval(
-        () => cursor
+        () => pointer
             .transition().duration(tT)
             .ease(t => t)
             .attr("cx", mousePos[0])
             .attr("cy", mousePos[1]), 
         tT
     )
+}
+
+function drawPointer(container, type="circle") {
+    return container.append(type).attr("r", 10)
+        .attr("fill", "black").attr("stroke", "black")
+        .attr("stroke-width", 5).attr("stroke-opacity", 0.1)
+        .attr("visibility", "hidden");
 }
 
 function getDimensions() {
