@@ -27,6 +27,18 @@ function handleChange(container, dimensions, tT, mousePos) {
         .on( "mousemove", mouseMove)
         .on( "mouseleave", mouseLeave)
 
+
+    const inputDiv = d3.select(".io")
+    const input = inputDiv.select("input")
+    const timeT = inputDiv.select(".tT")
+    
+    input
+        .on("change", function(d) {
+            const value = d.target.value
+            tT = value
+            timeT.html(`${tT} ms`)
+        })
+
     function mouseEnter() {
         var pt = d3.pointer(event);
         mousePos = pt

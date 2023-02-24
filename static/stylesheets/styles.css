@@ -1,0 +1,15 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(48, 45, 45);
+}
+
+.io {
+    display: flex;
+    flex-direction: row;
+}
+
+.tT {
+    color: white;
+    font-size: small;
+    margin-left: 10px;
+}
