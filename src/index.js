@@ -1,4 +1,5 @@
 window.addEventListener("load", paint)
+
 function paint() {
     var tT = 20 //ms
     var mousePos
@@ -14,6 +15,8 @@ function paint() {
 }
 
 function handleChange(container, dimensions, tT, mousePos) {
+    let intervalId = null
+
     var pointer = drawPointer(container)
     
     container.append("rect")
@@ -43,6 +46,17 @@ function handleChange(container, dimensions, tT, mousePos) {
         var pt = d3.pointer(event);
         mousePos = pt
         pointer.attr("visibility", "visible");
+
+        if (!intervalId) {
+            intervalId = setInterval(
+                () => pointer
+                        .transition().duration(tT)
+                        .ease(t => t)
+                        .attr("cx", mousePos[0])
+                        .attr("cy", mousePos[1]), 
+                tT
+            )
+        }
     }
     
     function mouseMove() {
@@ -52,16 +66,12 @@ function handleChange(container, dimensions, tT, mousePos) {
     
     function mouseLeave() {
         pointer.attr("visibility", "hidden");
+        
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
     }
-
-    setInterval(
-        () => pointer
-            .transition().duration(tT)
-            .ease(t => t)
-            .attr("cx", mousePos[0])
-            .attr("cy", mousePos[1]), 
-        tT
-    )
 }
 
 function drawPointer(container, type="circle") {
