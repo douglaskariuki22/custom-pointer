@@ -45,7 +45,10 @@ function handleChange(container, dimensions, tT, mousePos) {
     function mouseEnter() {
         var pt = d3.pointer(event);
         mousePos = pt
-        pointer.attr("visibility", "visible");
+        pointer
+            .attr("cx", mousePos[0])
+            .attr("cy", mousePos[1])
+            .attr("visibility", "visible");
 
         if (!intervalId) {
             intervalId = setInterval(
