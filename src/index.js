@@ -21,9 +21,9 @@ function handleChange(container, dimensions, tT, mousePos) {
     
     container.append("rect")
         // .attr("cursor", "none")
-        .attr("x", 50).attr("y", 50)
-        .attr( "width", dimensions.boundedWidth)
-        .attr("height", dimensions.boundedHeight)
+        .attr("x", 0).attr("y", 0)
+        .attr( "width", dimensions.width)
+        .attr("height", dimensions.height)
         .attr("visibility", "hidden")
         .attr("pointer-events", "all")
         .on( "mouseenter", mouseEnter)
@@ -86,8 +86,8 @@ function drawPointer(container, type="circle") {
 
 function getDimensions() {
     let dimensions = {
-        width: window.innerWidth * 0.8,
-        height: window.innerWidth * 0.8,
+        width: window.innerWidth,
+        height: window.innerHeight,
         margin: {
             top: 90,
             right: 90,
